@@ -1,6 +1,10 @@
+'use client';
 import Link from "next/link";
 import { Header } from "@/components/header/Header";
 import { Footer } from "@/components/footer/Footer";
+import { useActiveAccount } from "thirdweb/react";
+import { ConnectButton } from "thirdweb/react";
+import { client } from "./client";
 
 export default function Home() {
   return (
@@ -9,8 +13,27 @@ export default function Home() {
         title="Web3 Developer Course"
         subtitle="Learn how to build web3 applications with the Thirdweb Connect SDK."
       />
+      <WalletInfo />
       <Menu />
       <Footer/>
+    </div>
+  );
+}
+
+function WalletInfo() {
+  const account = useActiveAccount();
+  
+  return (
+    <div className="flex flex-col items-center mb-10">
+      <ConnectButton client={client} />
+      {account && (
+        <div className="mt-4 p-4 border border-zinc-800 rounded-lg">
+          <h2 className="text-lg font-semibold mb-2">Wallet Information</h2>
+          <div className="text-sm text-zinc-400">
+            <p>Address: {account.address}</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

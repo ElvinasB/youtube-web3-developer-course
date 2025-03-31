@@ -1,7 +1,9 @@
 'use client';
 import { Header } from "@/components/header/Header";
 import { Footer } from "@/components/footer/Footer";
-
+import { ConnectButton, MediaRenderer, darkTheme } from "thirdweb/react";
+import { client } from "../client";
+import { createWallet } from "thirdweb/wallets";
 const ConnectButtonPage: React.FC = () => {
     return (
         <div className="py-20">
@@ -31,6 +33,12 @@ function DefaultConnectButton() {
     return (
         <div className="flex flex-col items-center mb-20 md:mb-20">
             <p  className="text-zinc-300 text-base mb-4 md:mb-4">Default ConnectButton Component</p>
+            <ConnectButton 
+            client={client} 
+                connectModal={{
+                    size: "compact"
+            }}
+            />
         </div>
     )
 }
@@ -38,12 +46,24 @@ function DefaultConnectButton() {
 //Customize Wallets Displayed in ConnectButton
 function CustomWallets() {
     //Create an array of recommended wallets
-    
+    const recommendedWallets = [createWallet("io.metamask")];
     //Create an array of wallets to display
-
+    const wallets = [
+        createWallet("io.metamask"),
+        createWallet("com.bybit"),
+        createWallet("com.kraken"),
+    ]
     return (
         <div className="flex flex-col items-center mb-20 md:mb-20">
             <p  className="text-zinc-300 text-base mb-4 md:mb-4">Customize Wallets Displayed</p>
+            <ConnectButton 
+            client={client}
+            connectModal={{
+                size: "wide"
+            }}
+            wallets={wallets}
+            recommendedWallets={recommendedWallets}
+            />
         </div>
     )
 }
@@ -53,6 +73,25 @@ function ButtonApperance() {
     return (
         <div className="flex flex-col items-center mb-20 md:mb-20">
             <p  className="text-zinc-300 text-base mb-4 md:mb-4">Customize Button Apperance</p>
+            <ConnectButton 
+                client={client}
+                connectButton={{
+                    label: "Prisijungti"
+                }}
+                connectModal={{
+                    title: "Prisijungimas",
+                    size: "wide",
+                    welcomeScreen: {
+                        title: "Prisijungimas",
+                        subtitle: "Prisijunkite prie savo paskyros"
+                    }
+                }}
+                wallets={[
+                    createWallet("io.metamask"),
+                    createWallet("com.bybit"),
+                    createWallet("com.kraken"),
+                ]}
+            />
         </div>
     )
 }
